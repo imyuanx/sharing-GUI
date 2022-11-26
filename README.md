@@ -1,4 +1,4 @@
-Easily share files to multiple devices on the LAN.
+Easily share files to multiple devices on the LAN/Public Network.
 
 ![Preview](assets/app.png)
 
