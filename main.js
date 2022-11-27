@@ -10,6 +10,12 @@ const SHARE_TYPE = {
   RECEIVE: 2,
 };
 
+const SHARING_PKG = {
+  darwin: "easy-sharing-macos",
+  win32: "easy-sharing-win.exe",
+  linux: "easy-sharing-linux",
+};
+
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 540,
@@ -22,7 +28,7 @@ const createWindow = () => {
 
   ipcInit();
 
-  // 本地开发环境需要 load url，生产环境需要 load file
+  // development mode use load url, production mode use load file
   if (process.env.NODE_ENV == "production") {
     win.loadFile("index.html");
   } else {
@@ -57,9 +63,7 @@ const ipcInit = () => {
   // start service
   ipcMain.handle("sharing", (event, { type: shareType, params: _params }) => {
     return new Promise((reslove, reject) => {
-      // TODO: Platform judgment
-      // const binaryPath = path.join(__dirname, "./sharing-pkg/easy-sharing-macos");
-      const binaryPath = "./sharing-pkg/easy-sharing-macos";
+      const binaryPath = "./sharing-pkg/" + SHARING_PKG[process.platform];
 
       let params = [];
       if (shareType === SHARE_TYPE.CLIPBORAD) {
@@ -84,9 +88,7 @@ const ipcInit = () => {
       }
 
       console.log("spawn", binaryPath, params);
-      var ls = spawn(binaryPath, params, {
-        shell: true, // 使用shell命令
-      });
+      var ls = spawn(binaryPath, params, { shell: true });
 
       ls.stdout.on("data", function (data) {
         console.log("stdout: \r\n" + data);
