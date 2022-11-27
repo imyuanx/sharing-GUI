@@ -49,6 +49,7 @@ app.on("window-all-closed", function () {
 });
 
 const ipcInit = () => {
+  let serviceLs = null;
   ipcMain.on("set-title", (event, title) => {
     const webContents = event.sender;
     const win = BrowserWindow.fromWebContents(webContents);
@@ -88,9 +89,8 @@ const ipcInit = () => {
       }
 
       console.log("spawn", binaryPath, params);
-      var ls = spawn(binaryPath, params, { shell: true });
-
-      ls.stdout.on("data", function (data) {
+      serviceLs = spawn(binaryPath, params, { shell: true });
+      serviceLs.stdout.on("data", function (data) {
         console.log("stdout: \r\n" + data);
         let dataStr = data.toString();
         if (dataStr.indexOf("link") >= 0) {
@@ -99,11 +99,11 @@ const ipcInit = () => {
         }
       });
 
-      ls.stderr.on("data", function (data) {
+      serviceLs.stderr.on("data", function (data) {
         console.log("stderr: " + data);
       });
 
-      ls.on("exit", function (code) {
+      serviceLs.on("exit", function (code) {
         console.log("child process exited with code " + code);
       });
     });
@@ -114,6 +114,13 @@ const ipcInit = () => {
     console.log("basePath", basePath);
     return dialog.showOpenDialog({
       properties: ["openDirectory"],
+    });
+  });
+
+  ipcMain.handle("end-sharing", (event) => {
+    return new Promise((reslove, reject) => {
+      spawn("kill", [serviceLs.pid]);
+      reslove();
     });
   });
 };

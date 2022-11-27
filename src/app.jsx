@@ -20,6 +20,8 @@ const App = () => {
   const [publicIP, setPublicIP] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isStarted, setIsStarted] = useState(false);
+  const [serviceUrl, setServiceUrl] = useState("");
 
   /**
    * @desc start service
@@ -34,10 +36,21 @@ const App = () => {
     window.electronAPI
       .emit("sharing", { type: shareType, params })
       .then((res) => {
+        setIsStarted(true);
+        setServiceUrl(res);
         QRCode.toDataURL(res).then((res) => {
           setQrcodeImg(res);
         });
       });
+  };
+
+  /**
+   * @desc end service
+   */
+  const onEndServiceHandle = () => {
+    window.electronAPI.emit("end-sharing").then((res) => {
+      setIsStarted(false);
+    });
   };
 
   /**
@@ -102,28 +115,49 @@ const App = () => {
   return (
     <div className="app">
       <Header />
-      <div className="content">
-        <div className="from-group">
-          <div className="form-item">
-            <Radio
-              cehcked={shareType === SHARE_TYPE.DIRECTORY}
-              onClick={() => onRadioClickHandle(SHARE_TYPE.DIRECTORY)}
-            />
-            <div>Share Directory</div>
-          </div>
-          {shareType === SHARE_TYPE.DIRECTORY && (
-            <>
-              <div className="form-item form-item-item">
-                <div>Directory</div>
-                {directoryPath && <p className="text-path">{directoryPath}</p>}
-                <Button
-                  className="btn"
-                  size="small"
-                  onClick={onSelectShareDirectory}
-                >
-                  {directoryPath ? "Change Directory" : "Select Directory"}
-                </Button>
-              </div>
+      {!isStarted && (
+        <div className="content">
+          <div className="from-group">
+            <div className="form-item">
+              <Radio
+                cehcked={shareType === SHARE_TYPE.DIRECTORY}
+                onClick={() => onRadioClickHandle(SHARE_TYPE.DIRECTORY)}
+              />
+              <div>Share Directory</div>
+            </div>
+            {shareType === SHARE_TYPE.DIRECTORY && (
+              <>
+                <div className="form-item form-item-item">
+                  <div>Directory</div>
+                  {directoryPath && (
+                    <p className="text-path">{directoryPath}</p>
+                  )}
+                  <Button
+                    className="btn"
+                    size="small"
+                    onClick={onSelectShareDirectory}
+                  >
+                    {directoryPath ? "Change Directory" : "Select Directory"}
+                  </Button>
+                </div>
+                <div className="form-item form-item-item">
+                  <div>Port</div>
+                  <Input
+                    className="input input-port"
+                    placeholder="Default"
+                    onChange={onPortChange}
+                  ></Input>
+                </div>
+              </>
+            )}
+            <div className="form-item">
+              <Radio
+                cehcked={shareType === SHARE_TYPE.CLIPBORAD}
+                onClick={() => onRadioClickHandle(SHARE_TYPE.CLIPBORAD)}
+              />
+              <div>Share Clipborad</div>
+            </div>
+            {shareType === SHARE_TYPE.CLIPBORAD && (
               <div className="form-item form-item-item">
                 <div>Port</div>
                 <Input
@@ -132,92 +166,85 @@ const App = () => {
                   onChange={onPortChange}
                 ></Input>
               </div>
-            </>
-          )}
-          <div className="form-item">
-            <Radio
-              cehcked={shareType === SHARE_TYPE.CLIPBORAD}
-              onClick={() => onRadioClickHandle(SHARE_TYPE.CLIPBORAD)}
-            />
-            <div>Share Clipborad</div>
+            )}
+            <div className="form-item">
+              <Radio
+                cehcked={shareType === SHARE_TYPE.RECEIVE}
+                onClick={() => onRadioClickHandle(SHARE_TYPE.RECEIVE)}
+              />
+              <div>Rective files to directory</div>
+            </div>
+            {shareType === SHARE_TYPE.RECEIVE && (
+              <>
+                <div className="form-item form-item-item">
+                  <div>Directory</div>
+                  {directoryPath && (
+                    <p className="text-path">{directoryPath}</p>
+                  )}
+                  <Button
+                    className="btn"
+                    size="small"
+                    onClick={onSelectShareDirectory}
+                  >
+                    {directoryPath ? "Change Directory" : "Select Directory"}
+                  </Button>
+                </div>
+                <div className="form-item form-item-item">
+                  <div>Port</div>
+                  <Input
+                    className="input input-port"
+                    placeholder="Default"
+                    onChange={onPortChange}
+                  ></Input>
+                </div>
+              </>
+            )}
           </div>
-          {shareType === SHARE_TYPE.CLIPBORAD && (
-            <div className="form-item form-item-item">
-              <div>Port</div>
+          <div className="from-group">
+            <div className="form-item">
+              <label>Public IP</label>
               <Input
-                className="input input-port"
-                placeholder="Default"
-                onChange={onPortChange}
+                className="input"
+                placeholder="Public IP address"
+                onChange={onpublicIPChange}
               ></Input>
             </div>
-          )}
-          <div className="form-item">
-            <Radio
-              cehcked={shareType === SHARE_TYPE.RECEIVE}
-              onClick={() => onRadioClickHandle(SHARE_TYPE.RECEIVE)}
-            />
-            <div>Rective files to directory</div>
           </div>
-          {shareType === SHARE_TYPE.RECEIVE && (
-            <>
-              <div className="form-item form-item-item">
-                <div>Directory</div>
-                {directoryPath && <p className="text-path">{directoryPath}</p>}
-                <Button
-                  className="btn"
-                  size="small"
-                  onClick={onSelectShareDirectory}
-                >
-                  {directoryPath ? "Change Directory" : "Select Directory"}
-                </Button>
-              </div>
-              <div className="form-item form-item-item">
-                <div>Port</div>
+          <div className="from-group">
+            <div className="form-item form-many-item">
+              <div className="form-item-sub-item">
+                <label>Username</label>
                 <Input
-                  className="input input-port"
-                  placeholder="Default"
-                  onChange={onPortChange}
+                  className="input"
+                  placeholder="No by default"
+                  onChange={onUsernameChange}
                 ></Input>
               </div>
-            </>
-          )}
-        </div>
-        <div className="from-group">
-          <div className="form-item">
-            <label>Public IP</label>
-            <Input
-              className="input"
-              placeholder="Public IP address"
-              onChange={onpublicIPChange}
-            ></Input>
-          </div>
-        </div>
-        <div className="from-group">
-          <div className="form-item form-many-item">
-            <div className="form-item-sub-item">
-              <label>Username</label>
-              <Input
-                className="input"
-                placeholder="No by default"
-                onChange={onUsernameChange}
-              ></Input>
-            </div>
-            <div className="form-item-sub-item">
-              <label>Password</label>
-              <Input
-                className="input"
-                placeholder="No by default"
-                onChange={onPasswordChange}
-              ></Input>
+              <div className="form-item-sub-item">
+                <label>Password</label>
+                <Input
+                  className="input"
+                  placeholder="No by default"
+                  onChange={onPasswordChange}
+                ></Input>
+              </div>
             </div>
           </div>
+          <div style={{ flex: 1 }}></div>
+          <Button className="btn btn-start" onClick={onStartServiceHandle}>
+            Start Service
+          </Button>
         </div>
-        <div style={{ flex: 1 }}></div>
-        <Button onClick={onStartServiceHandle} className="btn btn-start">
-          Start Service
-        </Button>
-      </div>
-      <img src={qrcodeImg} />
+      )}
+      {isStarted && (
+        <div className="result-content">
+          <img className="img-qrcode" src={qrcodeImg} />
+          <Input className="input-result" value={serviceUrl} readOnly />
+          <Button className="btn-end" onClick={onEndServiceHandle}>
+            End Service
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

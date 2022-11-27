@@ -73,3 +73,24 @@
   font-size: 12px;
   color: #616161;
 }
+
+.result-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 25px;
+}
+
+.img-qrcode {
+  width: 249px;
+  height: 249px;
+}
+
+.input-result {
+  width: 200px;
+}
+
+.btn-end {
+  margin-top: 20px;
+}
