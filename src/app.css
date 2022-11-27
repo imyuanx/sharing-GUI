@@ -20,7 +20,7 @@
   flex-direction: column;
   padding: 14px 16px;
   border-radius: 8px;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   gap: 4px;
   margin-bottom: 10px;
 }
@@ -61,7 +61,7 @@
 }
 
 .input {
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   width: 150px;
 }
 
@@ -76,10 +76,11 @@
 
 .result-content {
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 25px;
+  padding-top: 35px;
 }
 
 .img-qrcode {

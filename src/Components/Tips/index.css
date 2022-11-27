@@ -1,0 +1,19 @@
+.clip-icon {
+  width: 28px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.copy-tips {
+  width: 150px;
+  height: 32px;
+  position: absolute;
+  top: 0px;
+  text-align: center;
+  background-color: #f0fdf4;
+  border-radius: 3px;
+  line-height: 28px;
+  border: 2px solid #4ade80;
+  box-sizing: border-box;
+}

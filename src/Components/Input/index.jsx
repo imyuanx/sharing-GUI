@@ -1,9 +1,16 @@
 import "./index.css";
 
 function Input(props) {
-  return <div className="input-box">
-    <input {...props}></input>
-  </div>;
+  const { icon, className, ..._props } = props;
+  return (
+    <div className="input-box">
+      <input
+        className={`${className} ${icon ? "input-icon" : ""}`}
+        {..._props}
+      ></input>
+      {icon}
+    </div>
+  );
 }
 
 export default Input;

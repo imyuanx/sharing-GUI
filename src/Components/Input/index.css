@@ -4,6 +4,8 @@
   height: auto;
   border-radius: 3px;
   overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
 input {
@@ -13,4 +15,9 @@ input {
   padding: 6px 8px;
   box-sizing: border-box;
   outline: none;
+}
+
+.input-icon {
+  padding-right: 0px;
+  width: 100% !important;
 }

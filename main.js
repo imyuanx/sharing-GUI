@@ -1,4 +1,11 @@
-const { app, BrowserWindow, ipcMain, shell, dialog } = require("electron");
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  shell,
+  dialog,
+  clipboard,
+} = require("electron");
 const path = require("path");
 const { exec, execFile, spawn } = require("child_process");
 const pkg = require("./package.json");
@@ -95,12 +102,17 @@ const ipcInit = () => {
         let dataStr = data.toString();
         if (dataStr.indexOf("link") >= 0) {
           let url = dataStr.match(/link:\s*(.*?)\s/)[1];
-          reslove(url);
+          reslove({ success: true, url });
         }
       });
 
       serviceLs.stderr.on("data", function (data) {
         console.log("stderr: " + data);
+        if (data.indexOf("address already in use") !== -1) {
+          reslove({ success: false, msg: "Failed: Port already in use" });
+        } else {
+          reslove({ success: false, msg: "Error: Service startup failed" });
+        }
       });
 
       serviceLs.on("exit", function (code) {
@@ -120,6 +132,13 @@ const ipcInit = () => {
   ipcMain.handle("end-sharing", (event) => {
     return new Promise((reslove, reject) => {
       spawn("kill", [serviceLs.pid]);
+      reslove();
+    });
+  });
+
+  ipcMain.handle("copy", (event, conetnt) => {
+    return new Promise((reslove, reject) => {
+      clipboard.writeText(conetnt);
       reslove();
     });
   });
