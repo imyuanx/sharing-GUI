@@ -1,8 +1,8 @@
 import "./index.css";
 
 function Button(props) {
-  const { children, ...args } = props;
-  return <div className='button' {...args}>{children}</div>;
+  const { size, className, children, ...args } = props;
+  return <div className={`button ${size || ""} ${className}`} {...args}>{children}</div>;
 }
 
 export default Button;

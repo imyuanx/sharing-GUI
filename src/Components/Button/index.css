@@ -3,8 +3,8 @@
   padding: 8px 10px;
   border-radius: 4px;
   color: #ffffff;
-  margin-top: 6px;
   cursor: pointer;
+  text-align: center;
 }
 
 .button:hover {
@@ -13,4 +13,9 @@
 
 .button:active {
   background-color: #15803D;
+}
+
+.small {
+  padding: 4px 10px;
+  font-size: 10px;
 }

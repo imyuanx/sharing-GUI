@@ -1,9 +1,14 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, shell, dialog } = require("electron");
 const path = require("path");
-const open = require("open");
 const { exec, execFile, spawn } = require("child_process");
 const pkg = require("./package.json");
 const APP_URL = `http://${pkg.env.SERVER_HOST}:${pkg.env.SERVER_PORT}`;
+
+const SHARE_TYPE = {
+  DIRECTORY: 0,
+  CLIPBORAD: 1,
+  RECEIVE: 2,
+};
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -43,17 +48,33 @@ const ipcInit = () => {
     win.setTitle(title);
   });
 
-  ipcMain.on("open-url", (event, url) => {
-    open(url);
+  // open url in default browser
+  ipcMain.handle("open-url", (event, url) => {
+    shell.openExternal(url);
   });
 
-  ipcMain.handle("sharing", (event, targetPath) => {
+  // start service
+  ipcMain.handle("sharing", (event, { type: shareType, params: _params }) => {
     return new Promise((reslove, reject) => {
       // TODO: Platform judgment
       // const binaryPath = path.join(__dirname, "./sharing-pkg/easy-sharing-macos");
       const binaryPath = "./sharing-pkg/easy-sharing-macos";
 
-      var ls = spawn(binaryPath, [targetPath], {
+      let params = [];
+      if (shareType === SHARE_TYPE.CLIPBORAD) {
+        params = ["--clipboard"];
+      } else {
+        params = [_params.directoryPath];
+      }
+      if (shareType === SHARE_TYPE.RECEIVE) {
+        params.push("--receive");
+      }
+      if (_params.port) {
+        params.push(`--port ${_params.port}`);
+      }
+
+      console.log("spawn", binaryPath, params);
+      var ls = spawn(binaryPath, params, {
         shell: true, // 使用shell命令
       });
 
@@ -73,6 +94,14 @@ const ipcInit = () => {
       ls.on("exit", function (code) {
         console.log("child process exited with code " + code);
       });
+    });
+  });
+
+  // select directory path
+  ipcMain.handle("select-directory", (event, basePath) => {
+    console.log("basePath", basePath);
+    return dialog.showOpenDialog({
+      properties: ["openDirectory"],
     });
   });
 };

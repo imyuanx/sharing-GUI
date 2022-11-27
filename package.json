@@ -12,8 +12,6 @@
   },
   "dependencies": {
     "@vitejs/plugin-react": "^2.2.0",
-    "easy-sharing": "^1.2.2",
-    "open": "^8.4.0",
     "qrcode": "^1.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -1,20 +1,9 @@
-// import { exec } from "child_process";
 import "./index.css";
 
 function Header() {
   // 打开新窗口
   const openDefaultBrowser = function (url) {
-    console.log(process.platform);
-    // switch (process.platform) {
-    //   case "darwin":
-    //     exec("open " + url);
-    //     break;
-    //   case "win32":
-    //     exec("start " + url);
-    //     break;
-    //   default:
-    //     exec("xdg-open", [url]);
-    // }
+    window.electronAPI.emit("open-url", url);
   };
   const onClickHandle = () => {
     openDefaultBrowser("https://github.com/yunying1/sharing-GUI");
