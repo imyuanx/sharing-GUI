@@ -17,6 +17,9 @@ const App = () => {
   const [shareType, setShareType] = useState(SHARE_TYPE.DIRECTORY);
   const [directoryPath, setDirectoryPath] = useState("");
   const [port, setPort] = useState("");
+  const [publicIP, setPublicIP] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   /**
    * @desc start service
@@ -25,14 +28,16 @@ const App = () => {
     console.log("onStartServiceHandle", directoryPath, port);
     if (shareType !== SHARE_TYPE.CLIPBORAD && !directoryPath) {
       alert("Please select a directory!");
-      return ;
+      return;
     }
-    const params = { directoryPath, port };
-    window.electronAPI.emit("sharing", { type: shareType, params }).then((res) => {
-      QRCode.toDataURL(res).then((res) => {
-        setQrcodeImg(res);
+    const params = { directoryPath, port, publicIP, username, password };
+    window.electronAPI
+      .emit("sharing", { type: shareType, params })
+      .then((res) => {
+        QRCode.toDataURL(res).then((res) => {
+          setQrcodeImg(res);
+        });
       });
-    });
   };
 
   /**
@@ -70,6 +75,30 @@ const App = () => {
     setPort(port);
   };
 
+  /**
+   * @desc change public IP
+   */
+  const onpublicIPChange = (e) => {
+    const publicIP = e.target.value;
+    setPublicIP(publicIP);
+  };
+
+  /**
+   * @desc change username
+   */
+  const onUsernameChange = (e) => {
+    const username = e.target.value;
+    setUsername(username);
+  };
+
+  /**
+   * @desc change password
+   */
+  const onPasswordChange = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+  };
+
   return (
     <div className="app">
       <Header />
@@ -98,7 +127,7 @@ const App = () => {
               <div className="form-item form-item-item">
                 <div>Port</div>
                 <Input
-                  className="input"
+                  className="input input-port"
                   placeholder="Default"
                   onChange={onPortChange}
                 ></Input>
@@ -114,13 +143,13 @@ const App = () => {
           </div>
           {shareType === SHARE_TYPE.CLIPBORAD && (
             <div className="form-item form-item-item">
-            <div>Port</div>
-            <Input
-              className="input"
-              placeholder="Default"
-              onChange={onPortChange}
-            ></Input>
-          </div>
+              <div>Port</div>
+              <Input
+                className="input input-port"
+                placeholder="Default"
+                onChange={onPortChange}
+              ></Input>
+            </div>
           )}
           <div className="form-item">
             <Radio
@@ -145,13 +174,43 @@ const App = () => {
               <div className="form-item form-item-item">
                 <div>Port</div>
                 <Input
-                  className="input"
+                  className="input input-port"
                   placeholder="Default"
                   onChange={onPortChange}
                 ></Input>
               </div>
             </>
           )}
+        </div>
+        <div className="from-group">
+          <div className="form-item">
+            <label>Public IP</label>
+            <Input
+              className="input"
+              placeholder="Public IP address"
+              onChange={onpublicIPChange}
+            ></Input>
+          </div>
+        </div>
+        <div className="from-group">
+          <div className="form-item form-many-item">
+            <div className="form-item-sub-item">
+              <label>Username</label>
+              <Input
+                className="input"
+                placeholder="No by default"
+                onChange={onUsernameChange}
+              ></Input>
+            </div>
+            <div className="form-item-sub-item">
+              <label>Password</label>
+              <Input
+                className="input"
+                placeholder="No by default"
+                onChange={onPasswordChange}
+              ></Input>
+            </div>
+          </div>
         </div>
         <div style={{ flex: 1 }}></div>
         <Button onClick={onStartServiceHandle} className="btn btn-start">

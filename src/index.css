@@ -1,8 +1,30 @@
 * {
   margin: 0;
   padding: 0;
+  font-size: 14px;
 }
 
-html, body, #root {
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  font-size: 14px;
+}
+
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+  font-size: 14px;
+}
+
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+  font-size: 14px;
+}
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  font-size: 14px;
+}
+
+html,
+body,
+#root {
   height: 100%;
 }

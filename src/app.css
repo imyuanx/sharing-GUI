@@ -21,13 +21,19 @@
   padding: 14px 16px;
   border-radius: 8px;
   background-color: #FAFAFA;
-  gap: 10px;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.form-many-item {
+  justify-content: space-between;
 }
 
 .form-item {
   display: flex;
   align-items: center;
   gap: 6px;
+  height: 36px;
 }
 
 .form-item-item {
@@ -35,17 +41,31 @@
 }
 
 .form-item label {
-  margin-right: 10px;
-  width: 126px;
+  width: 68px;
   text-align: right;
+}
+
+.form-item-sub-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .btn-start {
   margin-bottom: 5px;
+  height: 32px;
+  padding: 0px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .input {
   background-color: #FAFAFA;
+  width: 150px;
+}
+
+.input-port {
   width: 60px;
 }
 

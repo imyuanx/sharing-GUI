@@ -13,10 +13,11 @@ const SHARE_TYPE = {
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 540,
-    height: 500,
+    height: 525,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
+    resizable: false,
   });
 
   ipcInit();
@@ -38,7 +39,7 @@ app.whenReady().then(() => {
 });
 
 app.on("window-all-closed", function () {
-  if (process.platform !== "darwin") app.quit();
+  app.quit();
 });
 
 const ipcInit = () => {
@@ -71,6 +72,15 @@ const ipcInit = () => {
       }
       if (_params.port) {
         params.push(`--port ${_params.port}`);
+      }
+      if (_params.publicIP) {
+        params.push(`--ip ${_params.publicIP}`);
+      }
+      if (_params.username) {
+        params.push(`--username ${_params.username}`);
+      }
+      if (_params.password) {
+        params.push(`--password ${_params.password}`);
       }
 
       console.log("spawn", binaryPath, params);
