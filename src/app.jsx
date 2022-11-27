@@ -164,7 +164,9 @@ const App = () => {
             {shareType === SHARE_TYPE.DIRECTORY && (
               <>
                 <div className="form-item form-item-item">
-                  <div>Directory</div>
+                  <div>
+                    <span className="required-symbol">*</span>Directory
+                  </div>
                   {directoryPath && (
                     <p className="text-path">{directoryPath}</p>
                   )}
@@ -180,7 +182,7 @@ const App = () => {
                   <div>Port</div>
                   <Input
                     className="input input-port"
-                    placeholder="Default"
+                    placeholder="(Optional)"
                     value={port}
                     onChange={onPortChange}
                   ></Input>
@@ -199,7 +201,7 @@ const App = () => {
                 <div>Port</div>
                 <Input
                   className="input input-port"
-                  placeholder="Default"
+                  placeholder="(Optional)"
                   value={port}
                   onChange={onPortChange}
                 ></Input>
@@ -215,7 +217,9 @@ const App = () => {
             {shareType === SHARE_TYPE.RECEIVE && (
               <>
                 <div className="form-item form-item-item">
-                  <div>Directory</div>
+                  <div>
+                    <span className="required-symbol">*</span>Directory
+                  </div>
                   {directoryPath && (
                     <p className="text-path">{directoryPath}</p>
                   )}
@@ -231,7 +235,7 @@ const App = () => {
                   <div>Port</div>
                   <Input
                     className="input input-port"
-                    placeholder="Default"
+                    placeholder="(Optional)"
                     value={port}
                     onChange={onPortChange}
                   ></Input>
@@ -244,7 +248,7 @@ const App = () => {
               <label>Public IP</label>
               <Input
                 className="input"
-                placeholder="Public IP address"
+                placeholder="Public IP (Optional)"
                 onChange={onpublicIPChange}
               ></Input>
             </div>
@@ -255,7 +259,7 @@ const App = () => {
                 <label>Username</label>
                 <Input
                   className="input"
-                  placeholder="No by default"
+                  placeholder="(Optional)"
                   onChange={onUsernameChange}
                 ></Input>
               </div>
@@ -263,7 +267,7 @@ const App = () => {
                 <label>Password</label>
                 <Input
                   className="input"
-                  placeholder="No by default"
+                  placeholder="(Optional)"
                   onChange={onPasswordChange}
                 ></Input>
               </div>
