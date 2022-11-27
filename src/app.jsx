@@ -23,6 +23,10 @@ const App = () => {
    */
   const onStartServiceHandle = () => {
     console.log("onStartServiceHandle", directoryPath, port);
+    if (shareType !== SHARE_TYPE.CLIPBORAD && !directoryPath) {
+      alert("Please select a directory!");
+      return ;
+    }
     const params = { directoryPath, port };
     window.electronAPI.emit("sharing", { type: shareType, params }).then((res) => {
       QRCode.toDataURL(res).then((res) => {
