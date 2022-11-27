@@ -182,7 +182,7 @@ const App = () => {
                   <div>Port</div>
                   <Input
                     className="input input-port"
-                    placeholder="(Optional)"
+                    placeholder="Optional"
                     value={port}
                     onChange={onPortChange}
                   ></Input>
@@ -201,7 +201,7 @@ const App = () => {
                 <div>Port</div>
                 <Input
                   className="input input-port"
-                  placeholder="(Optional)"
+                  placeholder="Optional"
                   value={port}
                   onChange={onPortChange}
                 ></Input>
@@ -235,7 +235,7 @@ const App = () => {
                   <div>Port</div>
                   <Input
                     className="input input-port"
-                    placeholder="(Optional)"
+                    placeholder="Optional"
                     value={port}
                     onChange={onPortChange}
                   ></Input>
@@ -259,7 +259,7 @@ const App = () => {
                 <label>Username</label>
                 <Input
                   className="input"
-                  placeholder="(Optional)"
+                  placeholder="Optional"
                   onChange={onUsernameChange}
                 ></Input>
               </div>
@@ -267,7 +267,7 @@ const App = () => {
                 <label>Password</label>
                 <Input
                   className="input"
-                  placeholder="(Optional)"
+                  placeholder="Optional"
                   onChange={onPasswordChange}
                 ></Input>
               </div>

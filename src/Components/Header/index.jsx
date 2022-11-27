@@ -1,3 +1,4 @@
+import logoSVG from "../../../assets/logo.svg";
 import "./index.css";
 
 function Header() {
@@ -11,7 +12,10 @@ function Header() {
 
   return (
     <div className="header">
-      <div className="title">Sharing GUI</div>
+      <div className="header-left">
+        <img className="svg-logo" src={logoSVG} />
+        <div className="title">Sharing GUI</div>
+      </div>
       <svg
         width="20"
         height="20"
