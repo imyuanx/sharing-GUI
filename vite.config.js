@@ -7,6 +7,10 @@ const pkg = require("./package.json");
 console.log(electron);
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: process.env.NODE_ENV !== 'development' ? './' : '/',
+  build: {
+    outDir: 'vite-build',
+  },
   plugins: [
     react(),
     electron({

@@ -35,11 +35,12 @@ const createWindow = () => {
 
   ipcInit();
 
+  // TODO: when we are development mode we can get process but when used the electron forge we can't get process, so when can't get process default used production. This is a hack if we can get process then fix it.
   // development mode use load url, production mode use load file
-  if (process.env.NODE_ENV == "production") {
-    win.loadFile("index.html");
+  if (process.env.NODE_ENV == "development") {
+    return win.loadURL(APP_URL + "/index");
   } else {
-    win.loadURL(APP_URL + "/index");
+    return win.loadFile("./vite-build/index.html");
   }
 };
 
@@ -71,11 +72,13 @@ const ipcInit = () => {
   // start service
   ipcMain.handle("sharing", (event, { type: shareType, params: _params }) => {
     return new Promise((reslove, reject) => {
-      const binaryPath = "./sharing-pkg/" + SHARING_PKG[process.platform];
+      const binaryPath = path.join(__dirname, "/sharing-pkg/" + SHARING_PKG[process.platform]);
 
       let params = [];
       if (shareType === SHARE_TYPE.CLIPBORAD) {
-        params = ["--clipboard"];
+        let tmpPath = path.join(__dirname, '../');
+        tmpPath = tmpPath.replace(/\s/g, '\\ ');
+        params = ["--clipboard", `--tmpdir ${tmpPath}`];
       } else {
         params = [_params.directoryPath];
       }
@@ -95,8 +98,8 @@ const ipcInit = () => {
         params.push(`--password ${_params.password}`);
       }
 
-      console.log("spawn", binaryPath, params);
-      serviceLs = spawn(binaryPath, params, { shell: true });
+      // console.log("execFile", binaryPath, params);
+      serviceLs = execFile(binaryPath, params, { shell: true })
       serviceLs.stdout.on("data", function (data) {
         console.log("stdout: \r\n" + data);
         let dataStr = data.toString();
@@ -111,7 +114,7 @@ const ipcInit = () => {
         if (data.indexOf("address already in use") !== -1) {
           reslove({ success: false, msg: "Failed: Port already in use" });
         } else {
-          reslove({ success: false, msg: "Error: Service startup failed" });
+          reslove({ success: false, msg: "Error: Service startup failed", err: data.toString() });
         }
       });
 
@@ -131,7 +134,7 @@ const ipcInit = () => {
 
   ipcMain.handle("end-sharing", (event) => {
     return new Promise((reslove, reject) => {
-      spawn("kill", [serviceLs.pid]);
+      execFile("kill", [serviceLs.pid]);
       reslove();
     });
   });
