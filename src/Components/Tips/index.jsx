@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import "./index.css";
 
 const Checkmark = () => {
@@ -19,9 +20,10 @@ const Checkmark = () => {
 };
 
 function Tips() {
+  const { t } = useTranslation();
   return (
     <div className="copy-tips">
-      Copied
+      {t("Copied")}
       {<Checkmark />}
     </div>
   );

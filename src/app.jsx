@@ -1,5 +1,6 @@
 import { useState } from "react";
 import QRCode from "qrcode/lib/browser";
+import { useTranslation } from "react-i18next";
 import "./app.css";
 import Header from "./Components/Header";
 import Input from "./Components/Input";
@@ -14,6 +15,7 @@ const SHARE_TYPE = {
 };
 
 const App = () => {
+  const { t } = useTranslation();
   const [qrcodeImg, setQrcodeImg] = useState("");
   const [shareType, setShareType] = useState(SHARE_TYPE.DIRECTORY);
   const [directoryPath, setDirectoryPath] = useState("");
@@ -31,7 +33,7 @@ const App = () => {
   const onStartServiceHandle = () => {
     console.log("onStartServiceHandle", directoryPath, port);
     if (shareType !== SHARE_TYPE.CLIPBORAD && !directoryPath) {
-      alert("Please select a directory!");
+      alert(t("Please select a directory!"));
       return;
     }
     const params = { directoryPath, port, publicIP, username, password };
@@ -159,13 +161,14 @@ const App = () => {
                 cehcked={shareType === SHARE_TYPE.DIRECTORY}
                 onClick={() => onRadioClickHandle(SHARE_TYPE.DIRECTORY)}
               />
-              <div>Share Directory</div>
+              <div>{t("Share Directory")}</div>
             </div>
             {shareType === SHARE_TYPE.DIRECTORY && (
               <>
                 <div className="form-item form-item-item">
                   <div>
-                    <span className="required-symbol">*</span>Directory
+                    <span className="required-symbol">*</span>
+                    {t("Directory")}
                   </div>
                   {directoryPath && (
                     <p className="text-path">{directoryPath}</p>
@@ -175,14 +178,14 @@ const App = () => {
                     size="small"
                     onClick={onSelectShareDirectory}
                   >
-                    {directoryPath ? "Change Directory" : "Select Directory"}
+                    {directoryPath ? t("Change") : t("Select")}
                   </Button>
                 </div>
                 <div className="form-item form-item-item">
-                  <div>Port</div>
+                  <div>{t("Port")}</div>
                   <Input
                     className="input input-port"
-                    placeholder="Optional"
+                    placeholder={t("Optional")}
                     value={port}
                     onChange={onPortChange}
                   ></Input>
@@ -194,14 +197,14 @@ const App = () => {
                 cehcked={shareType === SHARE_TYPE.CLIPBORAD}
                 onClick={() => onRadioClickHandle(SHARE_TYPE.CLIPBORAD)}
               />
-              <div>Share Clipborad</div>
+              <div>{t("Share Clipborad")}</div>
             </div>
             {shareType === SHARE_TYPE.CLIPBORAD && (
               <div className="form-item form-item-item">
-                <div>Port</div>
+                <div>{t("Port")}</div>
                 <Input
                   className="input input-port"
-                  placeholder="Optional"
+                  placeholder={t("Optional")}
                   value={port}
                   onChange={onPortChange}
                 ></Input>
@@ -212,13 +215,14 @@ const App = () => {
                 cehcked={shareType === SHARE_TYPE.RECEIVE}
                 onClick={() => onRadioClickHandle(SHARE_TYPE.RECEIVE)}
               />
-              <div>Rective files to directory</div>
+              <div>{t("Rective files to directory")}</div>
             </div>
             {shareType === SHARE_TYPE.RECEIVE && (
               <>
                 <div className="form-item form-item-item">
                   <div>
-                    <span className="required-symbol">*</span>Directory
+                    <span className="required-symbol">*</span>
+                    {t("Directory")}
                   </div>
                   {directoryPath && (
                     <p className="text-path">{directoryPath}</p>
@@ -228,14 +232,14 @@ const App = () => {
                     size="small"
                     onClick={onSelectShareDirectory}
                   >
-                    {directoryPath ? "Change Directory" : "Select Directory"}
+                    {directoryPath ? t("Change") : t("Select")}
                   </Button>
                 </div>
                 <div className="form-item form-item-item">
-                  <div>Port</div>
+                  <div>{t("Port")}</div>
                   <Input
                     className="input input-port"
-                    placeholder="Optional"
+                    placeholder={t("Optional")}
                     value={port}
                     onChange={onPortChange}
                   ></Input>
@@ -245,10 +249,10 @@ const App = () => {
           </div>
           <div className="from-group">
             <div className="form-item">
-              <label>Public IP</label>
+              <label>{t("Public IP")}</label>
               <Input
                 className="input"
-                placeholder="Public IP (Optional)"
+                placeholder={`${t("Public IP")} (${t("Optional")})`}
                 onChange={onpublicIPChange}
               ></Input>
             </div>
@@ -256,18 +260,18 @@ const App = () => {
           <div className="from-group">
             <div className="form-item form-many-item">
               <div className="form-item-sub-item">
-                <label>Username</label>
+                <label>{t("Username")}</label>
                 <Input
                   className="input"
-                  placeholder="Optional"
+                  placeholder={t("Optional")}
                   onChange={onUsernameChange}
                 ></Input>
               </div>
               <div className="form-item-sub-item">
-                <label>Password</label>
+                <label>{t("Password")}</label>
                 <Input
                   className="input"
-                  placeholder="Optional"
+                  placeholder={t("Optional")}
                   onChange={onPasswordChange}
                 ></Input>
               </div>
@@ -275,7 +279,7 @@ const App = () => {
           </div>
           <div style={{ flex: 1 }}></div>
           <Button className="btn btn-start" onClick={onStartServiceHandle}>
-            Start Service
+            {t("Start Service")}
           </Button>
         </div>
       )}
@@ -290,7 +294,7 @@ const App = () => {
             icon={<ClipIcon onClick={onCopyUrlHandle} />}
           />
           <Button className="btn-end" onClick={onEndServiceHandle}>
-            End Service
+            {t("End Service")}
           </Button>
         </div>
       )}
