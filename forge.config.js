@@ -1,6 +1,6 @@
 module.exports = {
   packagerConfig: {
-    appVersion: "1.0.0",
+    appVersion: "1.1.0",
     name: "Sharing GUI",
     appCopyright: "yuanx(yuanx.me@qq.com)",
     icon: "./assets/logo-bg-512x512",
