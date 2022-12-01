@@ -72,15 +72,19 @@ const ipcInit = () => {
   // start service
   ipcMain.handle("sharing", (event, { type: shareType, params: _params }) => {
     return new Promise((reslove, reject) => {
-      const binaryPath = path.join(__dirname, "/sharing-pkg/" + SHARING_PKG[process.platform]);
+      const binaryPath = path.join(
+        __dirname,
+        "/sharing-pkg/" + SHARING_PKG[process.platform]
+      );
 
       let params = [];
       if (shareType === SHARE_TYPE.CLIPBORAD) {
-        let tmpPath = path.join(__dirname, '../');
-        tmpPath = tmpPath.replace(/\s/g, '\\ ');
+        let tmpPath = path.join(__dirname, "../");
+        tmpPath = tmpPath.replace(/\s/g, "\\ ");
         params = ["--clipboard", `--tmpdir ${tmpPath}`];
       } else {
-        params = [_params.directoryPath];
+        const path = _params.directoryPath.replace(/\s/g, "\\ ");
+        params = [path];
       }
       if (shareType === SHARE_TYPE.RECEIVE) {
         params.push("--receive");
@@ -99,7 +103,7 @@ const ipcInit = () => {
       }
 
       // console.log("execFile", binaryPath, params);
-      serviceLs = execFile(binaryPath, params, { shell: true })
+      serviceLs = execFile(binaryPath, params, { shell: true });
       serviceLs.stdout.on("data", function (data) {
         console.log("stdout: \r\n" + data);
         let dataStr = data.toString();
@@ -114,7 +118,11 @@ const ipcInit = () => {
         if (data.indexOf("address already in use") !== -1) {
           reslove({ success: false, msg: "Failed: Port already in use" });
         } else {
-          reslove({ success: false, msg: "Error: Service startup failed", err: data.toString() });
+          reslove({
+            success: false,
+            msg: "Error: Service startup failed",
+            err: data.toString(),
+          });
         }
       });
 
