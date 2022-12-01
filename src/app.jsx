@@ -26,6 +26,7 @@ const App = () => {
   const [isStarted, setIsStarted] = useState(false);
   const [serviceUrl, setServiceUrl] = useState("");
   const [isShowTips, setIsShowTips] = useState(false);
+  const [isStaring, setIsStaring] = useState(false);
 
   /**
    * @desc start service
@@ -36,11 +37,13 @@ const App = () => {
       alert(t("Please select a directory!"));
       return;
     }
+    setIsStaring(true);
     const params = { directoryPath, port, publicIP, username, password };
     window.electronAPI
       .emit("sharing", { type: shareType, params })
       .then((res) => {
         if (res.success) {
+          setIsStaring(false);
           setIsStarted(true);
           setServiceUrl(res.url);
           QRCode.toDataURL(res.url).then((res) => {
@@ -278,7 +281,7 @@ const App = () => {
             </div>
           </div>
           <div style={{ flex: 1 }}></div>
-          <Button className="btn btn-start" onClick={onStartServiceHandle}>
+          <Button className="btn btn-start" onClick={onStartServiceHandle} isLoding={isStaring}>
             {t("Start Service")}
           </Button>
         </div>
