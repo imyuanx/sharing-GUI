@@ -8,6 +8,7 @@ const {
 } = require("electron");
 const path = require("path");
 const { exec, execFile, spawn } = require("child_process");
+const fs = require("fs");
 const pkg = require("./package.json");
 const APP_URL = `http://${pkg.env.SERVER_HOST}:${pkg.env.SERVER_PORT}`;
 
@@ -151,6 +152,18 @@ const ipcInit = () => {
     return new Promise((reslove, reject) => {
       clipboard.writeText(conetnt);
       reslove();
+    });
+  });
+
+  ipcMain.handle("drop-path", (event, targetPath) => {
+    return new Promise((reslove, reject) => {
+      fs.stat(targetPath, (err, stats) => {
+        const isDir = stats.isDirectory();
+        if (!isDir) {
+          reslove(path.dirname(targetPath));
+        }
+        reslove(targetPath);
+      });
     });
   });
 };

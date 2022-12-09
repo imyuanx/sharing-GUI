@@ -15,5 +15,6 @@ export default {
     Optional: "Optional",
     Copied: "Copied",
     "Please select a directory!": "Please select a directory!",
+    "Drop the folder you want to share": "Drop the folder you want to share",
   },
 };

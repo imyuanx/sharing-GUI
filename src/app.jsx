@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import QRCode from "qrcode/lib/browser";
 import { useTranslation } from "react-i18next";
 import "./app.css";
@@ -27,6 +27,8 @@ const App = () => {
   const [serviceUrl, setServiceUrl] = useState("");
   const [isShowTips, setIsShowTips] = useState(false);
   const [isStaring, setIsStaring] = useState(false);
+  const [isDragEnter, setIsDragEnter] = useState(false);
+  const countRef = useRef(0);
 
   /**
    * @desc start service
@@ -153,8 +155,69 @@ const App = () => {
     }, 2000);
   };
 
+  /**
+   * @desc Drag enter handle
+   */
+  const onDragEnterHandle = (e) => {
+    setIsDragEnter(true);
+  };
+
+  /**
+   * @desc Drop handle
+   */
+  const onDropHandle = (e) => {
+    setIsDragEnter(false);
+    const path = e.dataTransfer.files[0]?.path;
+    if (path) {
+      window.electronAPI.emit("drop-path", path).then((processedPath) => {
+        setDirectoryPath(processedPath);
+      });
+    }
+  };
+
+  /**
+   * @desc Drag leave handle
+   */
+  const onDragLeaveHandle = (e) => {
+    setIsDragEnter(false);
+  };
+
+  /**
+   * @desc Drag events entry
+   */
+  const fileDrop = (e) => {
+    if (shareType === SHARE_TYPE.CLIPBORAD) return;
+    if (e.type === "dragenter") {
+      e.preventDefault();
+      countRef.current++;
+      if (countRef.current % 2) {
+        onDragEnterHandle(e);
+      }
+    }
+    if (e.type === "dragleave") {
+      countRef.current++;
+      if (!(countRef.current % 2)) {
+        onDragLeaveHandle(e);
+        countRef.current = 0;
+      }
+    }
+    if (e.type === "dragover") {
+      e.preventDefault();
+    }
+    if (e.type === "drop") {
+      countRef.current = 0;
+      onDropHandle(e);
+    }
+  };
+
   return (
-    <div className="app">
+    <div
+      className={`app ${isDragEnter ? "child-disable-event" : ""}`}
+      onDragEnter={fileDrop}
+      onDragLeave={fileDrop}
+      onDragOver={fileDrop}
+      onDrop={fileDrop}
+    >
       <Header />
       {!isStarted && (
         <div className="content">
@@ -281,7 +344,11 @@ const App = () => {
             </div>
           </div>
           <div style={{ flex: 1 }}></div>
-          <Button className="btn btn-start" onClick={onStartServiceHandle} isLoding={isStaring}>
+          <Button
+            className="btn btn-start"
+            onClick={onStartServiceHandle}
+            isLoding={isStaring}
+          >
             {t("Start Service")}
           </Button>
         </div>
@@ -299,6 +366,13 @@ const App = () => {
           <Button className="btn-end" onClick={onEndServiceHandle}>
             {t("End Service")}
           </Button>
+        </div>
+      )}
+      {isDragEnter && (
+        <div className="drag-modal">
+          <div className="drag-box">
+            {t("Drop the folder you want to share")}
+          </div>
         </div>
       )}
     </div>

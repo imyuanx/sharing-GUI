@@ -15,5 +15,6 @@ export default {
     Optional: "可选",
     Copied: "已复制",
     "Please select a directory!": "请选择文件夹！",
+    "Drop the folder you want to share": "拖放你想要共享的文件夹",
   },
 };
