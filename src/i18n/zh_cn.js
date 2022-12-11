@@ -1,12 +1,13 @@
 export default {
   translation: {
-    "Share Directory": "分享文件夹",
+    "Share Directories / Files": "分享文件夹 / 文件",
     Change: "修改",
     Select: "选择",
     Directory: "文件夹",
+    "Directories / Files": "文件夹 / 文件",
     Port: "端口",
     "Share Clipborad": "分享剪贴板",
-    "Rective files to directory": "上传文件到文件夹",
+    "Receive files to directory": "上传文件到文件夹",
     "Public IP": "公网 IP",
     Username: "用户名",
     Password: "密码",
@@ -15,6 +16,9 @@ export default {
     Optional: "可选",
     Copied: "已复制",
     "Please select a directory!": "请选择文件夹！",
-    "Drop the folder you want to share": "拖放你想要共享的文件夹",
+    "Drag and drop directories / files to share": "拖放要共享的目录 / 文件",
+    Add: "添加",
+    "Select at least one directory or file": "至少选择一个目录或文件",
+    "Drag and drop directory to receive files": "拖放要接受文件的目录",
   },
 };

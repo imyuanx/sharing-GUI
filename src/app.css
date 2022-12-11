@@ -32,9 +32,10 @@
 
 .form-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 6px;
-  height: 36px;
+  min-height: 36px;
 }
 
 .form-item-item {
@@ -50,6 +51,16 @@
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.path-item {
+  display: flex;
+  border: 1px dashed transparent;
+  border-radius: 2px;
+}
+
+.path-item:hover {
+  border: 1px dashed #9ca3af;
 }
 
 .btn-start {
@@ -123,4 +134,16 @@
   align-items: center;
   color: #ffffff;
   font-size: 18px;
+}
+
+.close-icon-box {
+  display: flex;
+  background-color: #d1d5db;
+  border-radius: 50%;
+  width: 14;
+  height: 14;
+  justify-content: center;
+  align-items: center;
+  margin-left: 2;
+  cursor: pointer;
 }

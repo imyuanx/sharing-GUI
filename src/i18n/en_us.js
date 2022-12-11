@@ -1,12 +1,13 @@
 export default {
   translation: {
-    "Share Directory": "Share Directory",
+    "Share Directories / Files": "Share Directories / Files",
     Change: "Change",
     Select: "Select",
     Directory: "Directory",
+    "Directories / Files": "Directories / Files",
     Port: "Port",
     "Share Clipborad": "Share Clipborad",
-    "Rective files to directory": "Rective files to directory",
+    "Receive files to directory": "Receive files to directory",
     "Public IP": "Public IP",
     Username: "Username",
     Password: "Password",
@@ -15,6 +16,11 @@ export default {
     Optional: "Optional",
     Copied: "Copied",
     "Please select a directory!": "Please select a directory!",
-    "Drop the folder you want to share": "Drop the folder you want to share",
+    "Drag and drop directories / files to share":
+      "Drag and drop directories / files to share",
+    Add: "Add",
+    "Select at least one directory or file":
+      "Select at least one directory or file",
+    "Drag and drop directory to receive files": "Drag and drop directory to receive files",
   },
 };

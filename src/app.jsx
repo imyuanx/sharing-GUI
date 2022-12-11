@@ -9,7 +9,7 @@ import Button from "./Components/Button";
 import Tips from "./Components/Tips";
 
 const SHARE_TYPE = {
-  DIRECTORY: 0,
+  SHARE: 0,
   CLIPBORAD: 1,
   RECEIVE: 2,
 };
@@ -17,8 +17,9 @@ const SHARE_TYPE = {
 const App = () => {
   const { t } = useTranslation();
   const [qrcodeImg, setQrcodeImg] = useState("");
-  const [shareType, setShareType] = useState(SHARE_TYPE.DIRECTORY);
-  const [directoryPath, setDirectoryPath] = useState("");
+  const [shareType, setShareType] = useState(SHARE_TYPE.SHARE);
+  const [sharePathList, setSharePathList] = useState([]);
+  const [receivePath, setReceivePath] = useState("");
   const [port, setPort] = useState("");
   const [publicIP, setPublicIP] = useState("");
   const [username, setUsername] = useState("");
@@ -34,13 +35,27 @@ const App = () => {
    * @desc start service
    */
   const onStartServiceHandle = () => {
-    console.log("onStartServiceHandle", directoryPath, port);
-    if (shareType !== SHARE_TYPE.CLIPBORAD && !directoryPath) {
-      alert(t("Please select a directory!"));
-      return;
+    if (shareType !== SHARE_TYPE.CLIPBORAD) {
+      if (shareType === SHARE_TYPE.SHARE && sharePathList.length <= 0) {
+        alert(t("Select at least one directory or file"));
+        return;
+      }
+      if (shareType === SHARE_TYPE.RECEIVE && !receivePath) {
+        alert(t("Please select a directory!"));
+        return;
+      }
     }
     setIsStaring(true);
-    const params = { directoryPath, port, publicIP, username, password };
+
+    const pathList =
+      shareType === SHARE_TYPE.SHARE ? sharePathList : [receivePath];
+    const params = {
+      pathList,
+      port,
+      publicIP,
+      username,
+      password,
+    };
     window.electronAPI
       .emit("sharing", { type: shareType, params })
       .then((res) => {
@@ -75,22 +90,42 @@ const App = () => {
   };
 
   /**
-   * @desc select share directory
+   * @desc select share directories or files
    */
-  const onSelectShareDirectory = () => {
-    window.electronAPI
-      .emit(
-        "select-directory",
-        "/Users/yuanx/Desktop/workspace/program/sharing-GUI/main.js"
-      )
-      .then((res) => {
-        if (!res.canceled) {
-          console.log("select dir:", res.filePaths);
-          if (res?.filePaths && res.filePaths.length > 0) {
-            setDirectoryPath(res.filePaths[0]);
-          }
-        }
-      });
+  const onSelectSharePath = () => {
+    window.electronAPI.emit("select-path").then((res) => {
+      if (res.canceled) return;
+      // console.log("select dir:", res.filePaths);
+      if (res?.filePaths && res.filePaths.length > 0) {
+        const filePaths = res.filePaths[0];
+        setSharePathList([...sharePathList, filePaths]);
+      }
+    });
+  };
+
+  /**
+   * @desc select receive directory
+   */
+  const onSelectReceiveDirectory = () => {
+    window.electronAPI.emit("select-path", null, true).then((res) => {
+      if (res.canceled) return;
+      // console.log("select dir:", res.filePaths);
+      if (res?.filePaths && res.filePaths.length > 0) {
+        const filePaths = res.filePaths[0];
+        setReceivePath(filePaths);
+      }
+    });
+  };
+
+  /**
+   * @desc Remove path from the path list.
+   * @param {String} path
+   */
+  const removePath = (path) => {
+    const _sharePathList = sharePathList.filter(
+      (pathItem) => pathItem !== path
+    );
+    setSharePathList(_sharePathList);
   };
 
   /**
@@ -167,11 +202,25 @@ const App = () => {
    */
   const onDropHandle = (e) => {
     setIsDragEnter(false);
-    const path = e.dataTransfer.files[0]?.path;
-    if (path) {
-      window.electronAPI.emit("drop-path", path).then((processedPath) => {
-        setDirectoryPath(processedPath);
-      });
+    const files = e.dataTransfer.files;
+    // console.log("e.dataTransfer.files", e.dataTransfer.files);
+    if (files.length <= 0) return;
+
+    if (shareType === SHARE_TYPE.SHARE) {
+      let paths = [];
+      for (let i = 0; i < files.length; i++) {
+        const path = files[i]?.path;
+        if (sharePathList.includes(path)) continue;
+        paths.push(path);
+      }
+      setSharePathList([...sharePathList, ...paths]);
+    }
+    if (shareType === SHARE_TYPE.RECEIVE) {
+      window.electronAPI
+        .emit("path-to-dir-path", files[0]?.path)
+        .then((dirPath) => {
+          setReceivePath(dirPath);
+        });
     }
   };
 
@@ -224,27 +273,47 @@ const App = () => {
           <div className="from-group">
             <div className="form-item">
               <Radio
-                cehcked={shareType === SHARE_TYPE.DIRECTORY}
-                onClick={() => onRadioClickHandle(SHARE_TYPE.DIRECTORY)}
+                cehcked={shareType === SHARE_TYPE.SHARE}
+                onClick={() => onRadioClickHandle(SHARE_TYPE.SHARE)}
               />
-              <div>{t("Share Directory")}</div>
+              <div>{t("Share Directories / Files")}</div>
             </div>
-            {shareType === SHARE_TYPE.DIRECTORY && (
+            {shareType === SHARE_TYPE.SHARE && (
               <>
                 <div className="form-item form-item-item">
                   <div>
                     <span className="required-symbol">*</span>
-                    {t("Directory")}
+                    {t("Directories / Files")}
                   </div>
-                  {directoryPath && (
-                    <p className="text-path">{directoryPath}</p>
-                  )}
+                  {sharePathList.length > 0 &&
+                    sharePathList.map((path) => (
+                      <div key={path} className="path-item">
+                        <p className="text-path">{path}</p>
+                        <div
+                          className="close-icon-box"
+                          onClick={() => removePath(path)}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="12"
+                            height="12"
+                            preserveAspectRatio="xMidYMid meet"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              fill="#ffffff"
+                              d="m12 13.4l-4.9 4.9q-.275.275-.7.275q-.425 0-.7-.275q-.275-.275-.275-.7q0-.425.275-.7l4.9-4.9l-4.9-4.9q-.275-.275-.275-.7q0-.425.275-.7q.275-.275.7-.275q.425 0 .7.275l4.9 4.9l4.9-4.9q.275-.275.7-.275q.425 0 .7.275q.275.275.275.7q0 .425-.275.7L13.4 12l4.9 4.9q.275.275.275.7q0 .425-.275.7q-.275.275-.7.275q-.425 0-.7-.275Z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    ))}
                   <Button
                     className="btn"
                     size="small"
-                    onClick={onSelectShareDirectory}
+                    onClick={onSelectSharePath}
                   >
-                    {directoryPath ? t("Change") : t("Select")}
+                    {t("Add")}
                   </Button>
                 </div>
                 <div className="form-item form-item-item">
@@ -281,7 +350,7 @@ const App = () => {
                 cehcked={shareType === SHARE_TYPE.RECEIVE}
                 onClick={() => onRadioClickHandle(SHARE_TYPE.RECEIVE)}
               />
-              <div>{t("Rective files to directory")}</div>
+              <div>{t("Receive files to directory")}</div>
             </div>
             {shareType === SHARE_TYPE.RECEIVE && (
               <>
@@ -290,15 +359,13 @@ const App = () => {
                     <span className="required-symbol">*</span>
                     {t("Directory")}
                   </div>
-                  {directoryPath && (
-                    <p className="text-path">{directoryPath}</p>
-                  )}
+                  {receivePath && <p className="text-path">{receivePath}</p>}
                   <Button
                     className="btn"
                     size="small"
-                    onClick={onSelectShareDirectory}
+                    onClick={onSelectReceiveDirectory}
                   >
-                    {directoryPath ? t("Change") : t("Select")}
+                    {!receivePath ? t("Change") : t("Select")}
                   </Button>
                 </div>
                 <div className="form-item form-item-item">
@@ -371,7 +438,9 @@ const App = () => {
       {isDragEnter && (
         <div className="drag-modal">
           <div className="drag-box">
-            {t("Drop the folder you want to share")}
+            {shareType === SHARE_TYPE.SHARE
+              ? t("Drag and drop directories / files to share")
+              : t("Drag and drop directory to receive files")}
           </div>
         </div>
       )}

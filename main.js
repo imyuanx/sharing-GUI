@@ -26,7 +26,7 @@ const SHARING_PKG = {
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 540,
+    width: 555,
     height: 525,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -84,8 +84,10 @@ const ipcInit = () => {
         tmpPath = tmpPath.replace(/\s/g, "\\ ");
         params = ["--clipboard", `--tmpdir ${tmpPath}`];
       } else {
-        const path = _params.directoryPath.replace(/\s/g, "\\ ");
-        params = [path];
+        _params.pathList.map((path) => {
+          const _path = path.replace(/\s/g, "\\ ");
+          params.push(_path);
+        });
       }
       if (shareType === SHARE_TYPE.RECEIVE) {
         params.push("--receive");
@@ -103,7 +105,6 @@ const ipcInit = () => {
         params.push(`--password ${_params.password}`);
       }
 
-      // console.log("execFile", binaryPath, params);
       serviceLs = execFile(binaryPath, params, { shell: true });
       serviceLs.stdout.on("data", function (data) {
         console.log("stdout: \r\n" + data);
@@ -133,12 +134,13 @@ const ipcInit = () => {
     });
   });
 
-  // select directory path
-  ipcMain.handle("select-directory", (event, basePath) => {
-    console.log("basePath", basePath);
-    return dialog.showOpenDialog({
-      properties: ["openDirectory"],
-    });
+  // select directory or file path
+  ipcMain.handle("select-path", (event, basePath, onlyDir) => {
+    let properties = ["openFile", "openDirectory"];
+    if (onlyDir) {
+      properties = ["openDirectory"];
+    }
+    return dialog.showOpenDialog({ properties });
   });
 
   ipcMain.handle("end-sharing", (event) => {
@@ -155,7 +157,7 @@ const ipcInit = () => {
     });
   });
 
-  ipcMain.handle("drop-path", (event, targetPath) => {
+  ipcMain.handle("path-to-dir-path", (event, targetPath) => {
     return new Promise((reslove, reject) => {
       fs.stat(targetPath, (err, stats) => {
         const isDir = stats.isDirectory();
