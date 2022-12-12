@@ -8,42 +8,56 @@ Easily share files to multiple devices on the LAN/Public Network.
 
 # Sharing GUI
 
+<!-- English | [简体中文]() -->
+
 The Sharing GUI is a client that is used to share files across multiple devices (iOS, Android, macOS, Windows, Linux...)
 
 **Only one client is required**, other devices use WEB. (client support macOS, Windows, Linux)
 
 Start with [parvardegr/sharing](https://github.com/parvardegr/sharing) and then used [yunying1/sharing](https://github.com/yunying1/sharing)
 
+## Installation
+
+Download from [GitHub Releases](https://github.com/yunying1/sharing-GUI/releases) and install it.
+
 ## Features
+
 - Download your files on other devices
 - Accept files on other devices
 - Access your clipboard on other devices
-- support LAN/Public Network
-- support identity authentication
+- Support LAN/Public Network
+- Support identity authentication
+
+## Tips
+
+- Support share multiple directories also supports the combination of folders and files.
+- Drag and drop directories or files to window.
+
+## Preview
 
 ![Preview](assets/app.png)
 
-# Usage
+## Development
 
-## Installation
+### Install Dependencies
 
 ```bash
 yarn
 ```
 
-## Development
+### Dev Mode
 
 ```bash
 yarn dev
 ```
 
-## Distribution
+### Distribution
 
 ```bash
 yarn make
 ```
 
-## Custom Core
+### Custom Core
 
 if your need custom core, visit this repo [yunying1/sharing](https://github.com/yunying1/sharing)
 
