@@ -140,10 +140,10 @@
   display: flex;
   background-color: #d1d5db;
   border-radius: 50%;
-  width: 14;
-  height: 14;
+  width: 14px;
+  height: 14px;
   justify-content: center;
   align-items: center;
-  margin-left: 2;
+  margin-left: 2px;
   cursor: pointer;
 }

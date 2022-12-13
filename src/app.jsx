@@ -365,7 +365,7 @@ const App = () => {
                     size="small"
                     onClick={onSelectReceiveDirectory}
                   >
-                    {!receivePath ? t("Change") : t("Select")}
+                    {receivePath ? t("Change") : t("Select")}
                   </Button>
                 </div>
                 <div className="form-item form-item-item">
