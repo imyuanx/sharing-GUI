@@ -8,7 +8,7 @@ Easily share files to multiple devices on the LAN/Public Network.
 
 # Sharing GUI
 
-<!-- English | [简体中文]() -->
+English | [简体中文](./README-CN.md)
 
 The Sharing GUI is a client that is used to share files across multiple devices (iOS, Android, macOS, Windows, Linux...)
 
