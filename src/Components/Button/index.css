@@ -1,6 +1,6 @@
 .button {
   position: relative;
-  background-color: #16A34A;
+  background-color: #16a34a;
   padding: 8px 10px;
   border-radius: 4px;
   color: #ffffff;
@@ -9,11 +9,27 @@
 }
 
 .button:hover {
-  background-color: #22C55E;
+  background-color: #22c55e;
 }
 
 .button:active {
-  background-color: #15803D;
+  background-color: #15803d;
+}
+
+.button-ghost {
+  background-color: #ffffff;
+  border: 1px solid #16a34a;
+  color: #16a34a;
+}
+
+.button-ghost:hover {
+  background-color: #16a34a;
+  color: #ffffff;
+}
+
+.button-ghost:active {
+  background-color: #15803d;
+  color: #ffffff;
 }
 
 .small {
@@ -22,7 +38,7 @@
 }
 
 .loading {
-  opacity: .65;
+  opacity: 0.65;
   pointer-events: none;
 }
 

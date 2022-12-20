@@ -1,10 +1,11 @@
 import "./index.css";
 
-function Button(props) {
-  const { size, className, children, isLoding, ...args } = props;
+function Button({ ghost, size, className, children, isLoding, ...args }) {
   return (
     <div
-      className={`button ${size || ""} ${className} ${isLoding && "loading"}`}
+      className={`button ${size || ""} ${className} ${isLoding && "loading"} ${
+        ghost && "button-ghost"
+      }`}
       {...args}
     >
       {children}
