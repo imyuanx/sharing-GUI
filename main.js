@@ -9,7 +9,7 @@ const {
 const path = require("path");
 const { exec, execFile, spawn } = require("child_process");
 const fs = require("fs");
-const ngrok = require("ngrok");
+const ngrok = require("ngrok-electron");
 const pkg = require("./package.json");
 const APP_URL = `http://${pkg.env.SERVER_HOST}:${pkg.env.SERVER_PORT}`;
 
@@ -197,22 +197,20 @@ const ipcInit = () => {
 function useNgrok(authtoken, port) {
   return new Promise((reslove, reject) => {
     try {
-      ngrok.authtoken(authtoken).then(
-        (res) => {
-          ngrok.connect(port).then(
-            (res) => {
-              reslove(res);
-            },
-            (err) => {
-              console.log("ngrok error:", err);
-              reject(err);
-            }
-          );
-        },
-        (err) => {
-          reject(err);
-        }
-      );
+      ngrok
+        .connect({
+          authtoken,
+          addr: port,
+        })
+        .then(
+          (res) => {
+            reslove(res);
+          },
+          (err) => {
+            console.log("ngrok error:", err);
+            reject(err);
+          }
+        );
     } catch (err) {
       reject(err);
     }

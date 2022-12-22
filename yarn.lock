@@ -2599,10 +2599,10 @@ negotiator@^0.6.3:
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.3.tgz#58e323a72fedc0d6f9cd4d31fe49f51479590ccd"
   integrity sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==
 
-ngrok@^4.3.3:
+ngrok-electron@^4.3.3:
   version "4.3.3"
-  resolved "https://registry.yarnpkg.com/ngrok/-/ngrok-4.3.3.tgz#c51a1c4af2271ac3c9092ede3b0975caf7833217"
-  integrity sha512-a2KApnkiG5urRxBPdDf76nNBQTnNNWXU0nXw0SsqsPI+Kmt2lGf9TdVYpYrHMnC+T9KhcNSWjCpWqBgC6QcFvw==
+  resolved "https://registry.yarnpkg.com/ngrok-electron/-/ngrok-electron-4.3.3.tgz#9eba06c82ecb78beea3fba989bdaaca81997df7e"
+  integrity sha512-l9ZdWQTEyr3jtGckahIXlO60gsjq287/vnw/sHY6mAcKY+l8Wnp3BzAMJRJiVPzZGxjGbVga2pQ6fwNwBZd8Sw==
   dependencies:
     "@types/node" "^8.10.50"
     extract-zip "^2.0.1"
