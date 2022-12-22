@@ -23,8 +23,3 @@ textarea:-ms-input-placeholder {
   font-size: 14px;
 }
 
-html,
-body,
-#root {
-  height: 100%;
-}

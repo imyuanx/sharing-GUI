@@ -9,6 +9,7 @@ const {
 const path = require("path");
 const { exec, execFile, spawn } = require("child_process");
 const fs = require("fs");
+const ngrok = require("ngrok-electron");
 const pkg = require("./package.json");
 const APP_URL = `http://${pkg.env.SERVER_HOST}:${pkg.env.SERVER_PORT}`;
 
@@ -26,7 +27,7 @@ const SHARING_PKG = {
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 555,
+    width: 557,
     height: 525,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -104,14 +105,35 @@ const ipcInit = () => {
       if (_params.password) {
         params.push(`--password ${_params.password}`);
       }
+      params.push("--dev");
 
       serviceLs = execFile(binaryPath, params, { shell: true });
       serviceLs.stdout.on("data", function (data) {
         console.log("stdout: \r\n" + data);
-        let dataStr = data.toString();
-        if (dataStr.indexOf("link") >= 0) {
-          let url = dataStr.match(/link:\s*(.*?)\s/)[1];
-          reslove({ success: true, url });
+        try {
+          const resData = JSON.parse(data);
+          if (resData.success) {
+            const linkInfo = resData.data.link;
+            let url = `${linkInfo.protocol}://${linkInfo.host}:${linkInfo.port}${linkInfo.path}`;
+            if (_params.ngrok) {
+              useNgrok(_params.ngrok, linkInfo.port).then(
+                (ngrokUrl) => {
+                  url = `${ngrokUrl}${linkInfo.path}`;
+                  reslove({ success: true, url });
+                },
+                (err) => {
+                  reject(err);
+                }
+              );
+            } else {
+              reslove({ success: true, url });
+            }
+          } else {
+            reject(resData.msg);
+          }
+        } catch (err) {
+          // console.log("err", err);
+          reject(err);
         }
       });
 
@@ -146,7 +168,9 @@ const ipcInit = () => {
   ipcMain.handle("end-sharing", (event) => {
     return new Promise((reslove, reject) => {
       execFile("kill", [serviceLs.pid]);
-      reslove();
+      ngrok.kill().then(() => {
+        reslove();
+      });
     });
   });
 
@@ -169,3 +193,26 @@ const ipcInit = () => {
     });
   });
 };
+
+function useNgrok(authtoken, port) {
+  return new Promise((reslove, reject) => {
+    try {
+      ngrok
+        .connect({
+          authtoken,
+          addr: port,
+        })
+        .then(
+          (res) => {
+            reslove(res);
+          },
+          (err) => {
+            console.log("ngrok error:", err);
+            reject(err);
+          }
+        );
+    } catch (err) {
+      reject(err);
+    }
+  });
+}

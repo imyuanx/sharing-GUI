@@ -1,10 +1,11 @@
 import "./index.css";
 
-function Button(props) {
-  const { size, className, children, isLoding, ...args } = props;
+function Button({ ghost, size, className, children, isLoding, ...args }) {
   return (
     <div
-      className={`button ${size || ""} ${className} ${isLoding && "loading"}`}
+      className={`button ${size || ""} ${className} ${isLoding && "loading"} ${
+        ghost && "button-ghost"
+      }`}
       {...args}
     >
       {children}
@@ -20,10 +21,10 @@ function Button(props) {
           <path
             fill="none"
             stroke="currentColor"
-            stroke-dasharray="15"
-            stroke-dashoffset="15"
-            stroke-linecap="round"
-            stroke-width="2"
+            strokeDasharray="15"
+            strokeDashoffset="15"
+            strokeLinecap="round"
+            strokeWidth="2"
             d="M12 3C16.9706 3 21 7.02944 21 12"
           >
             <animate

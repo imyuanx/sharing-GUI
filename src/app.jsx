@@ -1,12 +1,17 @@
 import { useRef, useState } from "react";
 import QRCode from "qrcode/lib/browser";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css"; // optional
 import "./app.css";
 import Header from "./Components/Header";
 import Input from "./Components/Input";
 import Radio from "./Components/Radio";
 import Button from "./Components/Button";
 import Tips from "./Components/Tips";
+import Checkbox from "./Components/Checkbox";
+import Authtoken from "./Components/Authtoken";
+import HelpIcon from "./Components/HelpIcon";
 
 const SHARE_TYPE = {
   SHARE: 0,
@@ -26,9 +31,12 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [isStarted, setIsStarted] = useState(false);
   const [serviceUrl, setServiceUrl] = useState("");
-  const [isShowTips, setIsShowTips] = useState(false);
+  const [isShowCopyTips, setIsShowCopyTips] = useState(false);
+  const [isShowAuthtokenTips, setIsShowAuthtokenTips] = useState(false);
   const [isStaring, setIsStaring] = useState(false);
   const [isDragEnter, setIsDragEnter] = useState(false);
+  const [ngrok, setNgrok] = useState(false);
+  const [manageAuthtoken, setManageAuthtoken] = useState(false);
   const countRef = useRef(0);
 
   /**
@@ -49,16 +57,28 @@ const App = () => {
 
     const pathList =
       shareType === SHARE_TYPE.SHARE ? sharePathList : [receivePath];
-    const params = {
+    let params = {
       pathList,
       port,
       publicIP,
       username,
       password,
     };
-    window.electronAPI
-      .emit("sharing", { type: shareType, params })
-      .then((res) => {
+    if (ngrok) {
+      const authtoken = localStorage.getItem("authtoken");
+      if (!authtoken) {
+        setIsShowAuthtokenTips(true);
+        setTimeout(() => {
+          setIsShowAuthtokenTips(false);
+        }, 2000);
+        setIsStaring(false);
+        setManageAuthtoken(true);
+        return;
+      }
+      params.ngrok = authtoken;
+    }
+    window.electronAPI.emit("sharing", { type: shareType, params }).then(
+      (res) => {
         if (res.success) {
           setIsStaring(false);
           setIsStarted(true);
@@ -68,8 +88,14 @@ const App = () => {
           });
         } else {
           alert(res.msg);
+          setIsStaring(false);
         }
-      });
+      },
+      (err) => {
+        alert(err);
+        setIsStaring(false);
+      }
+    );
   };
 
   /**
@@ -184,9 +210,9 @@ const App = () => {
    */
   const onCopyUrlHandle = () => {
     window.electronAPI.emit("copy", serviceUrl);
-    setIsShowTips(true);
+    setIsShowCopyTips(true);
     setTimeout(() => {
-      setIsShowTips(false);
+      setIsShowCopyTips(false);
     }, 2000);
   };
 
@@ -259,6 +285,22 @@ const App = () => {
     }
   };
 
+  const onAuthtokenColse = () => {
+    setManageAuthtoken(false);
+  };
+
+  /**
+   * @desc click the use ngrok
+   */
+  const onClickNgrok = (checked) => {
+    setNgrok(checked);
+    if (checked && !localStorage.getItem("authtoken")) {
+      setIsShowAuthtokenTips(true);
+      setTimeout(() => setIsShowAuthtokenTips(false), 2000);
+      setManageAuthtoken(true);
+    }
+  };
+
   return (
     <div
       className={`app ${isDragEnter ? "child-disable-event" : ""}`}
@@ -270,6 +312,9 @@ const App = () => {
       <Header />
       {!isStarted && (
         <div className="content">
+          {isShowAuthtokenTips && (
+            <Tips title={t("An authtoken must be provided to use ngrok!")} />
+          )}
           <div className="from-group">
             <div className="form-item">
               <Radio
@@ -381,13 +426,32 @@ const App = () => {
             )}
           </div>
           <div className="from-group">
-            <div className="form-item">
-              <label>{t("Public IP")}</label>
-              <Input
-                className="input"
-                placeholder={`${t("Public IP")} (${t("Optional")})`}
-                onChange={onpublicIPChange}
-              ></Input>
+            <div className="form-item  form-many-item">
+              <div
+                className={`form-item-sub-item ${
+                  ngrok ? "form-item-disable" : ""
+                }`}
+              >
+                <label>{t("Public IP")}</label>
+                <Input
+                  className="input"
+                  placeholder={`${t("Public IP")} (${t("Optional")})`}
+                  onChange={onpublicIPChange}
+                ></Input>
+              </div>
+              <div className="form-item-sub-item">
+                <label>{t("Use ngrok")}</label>
+                <div className="form-item-sub-item-checkbox">
+                  <Checkbox defaultChecked={ngrok} onClick={onClickNgrok} />
+                  <div
+                    className="auth-token-btn"
+                    onClick={() => setManageAuthtoken(true)}
+                  >
+                    {t("Manage Authtoken")}
+                  </div>
+                  <HelpIcon className="ngrok-help" />
+                </div>
+              </div>
             </div>
           </div>
           <div className="from-group">
@@ -422,7 +486,7 @@ const App = () => {
       )}
       {isStarted && (
         <div className="result-content">
-          {isShowTips && <Tips />}
+          {isShowCopyTips && <Tips title={t("Copied")} icon="check-mark" />}
           <img className="img-qrcode" src={qrcodeImg} />
           <Input
             className="input-result"
@@ -444,6 +508,7 @@ const App = () => {
           </div>
         </div>
       )}
+      {manageAuthtoken && <Authtoken onColse={onAuthtokenColse} />}
     </div>
   );
 };

@@ -8,9 +8,11 @@
 }
 
 .content {
+  position: relative;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  align-items: center;
+  min-height: 451px;
   width: 100%;
   padding: 10px 24px;
   box-sizing: border-box;
@@ -19,6 +21,8 @@
 .from-group {
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
   padding: 14px 16px;
   border-radius: 8px;
   background-color: #fafafa;
@@ -43,7 +47,7 @@
 }
 
 .form-item label {
-  width: 68px;
+  width: 70px;
   text-align: right;
 }
 
@@ -51,6 +55,21 @@
   display: flex;
   align-items: center;
   gap: 6px;
+}
+.form-item-sub-item-checkbox {
+  display: flex;
+  align-items: center;
+  width: 152px;
+}
+
+.form-item-disable {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.ngrok-help {
+  margin-left: 3px;
+  cursor: pointer;
 }
 
 .path-item {
@@ -64,9 +83,11 @@
 }
 
 .btn-start {
+  width: 100%;
+  box-sizing: border-box;
   margin-bottom: 5px;
   height: 32px;
-  padding: 0px !important;
+  /* padding: 0px !important; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -145,5 +166,24 @@
   justify-content: center;
   align-items: center;
   margin-left: 2px;
+  cursor: pointer;
+}
+
+.tippy-box[data-theme~="default"] {
+  background-color: #f0fdf4;
+  color: #000000;
+  border: 1px solid #4ade80;
+}
+
+.tippy-box[data-theme~="default"] > .tippy-arrow {
+  display: none;
+}
+
+.auth-token-btn {
+  font-size: 12px;
+  font-style: oblique;
+  color: #16a34a;
+  text-decoration: underline;
+  margin-left: 6px;
   cursor: pointer;
 }

@@ -1,11 +1,12 @@
 import { useState } from "react";
 import "./index.css";
 
-function Checkbox() {
-  const [isChecked, setIsChecked] = useState(false);
+function Checkbox({ defaultChecked = false, onClick = () => {} }) {
+  const [isChecked, setIsChecked] = useState(defaultChecked);
 
   const onClickHandle = () => {
     setIsChecked(!isChecked);
+    onClick(!isChecked);
   };
 
   return (
