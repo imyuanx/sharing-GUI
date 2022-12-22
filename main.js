@@ -116,19 +116,24 @@ const ipcInit = () => {
             const linkInfo = resData.data.link;
             let url = `${linkInfo.protocol}://${linkInfo.host}:${linkInfo.port}${linkInfo.path}`;
             if (_params.ngrok) {
-              useNgrok(_params.ngrok, linkInfo.port).then((ngrokUrl) => {
-                url = `${ngrokUrl}${linkInfo.path}`;
-                reslove({ success: true, url });
-              });
+              useNgrok(_params.ngrok, linkInfo.port).then(
+                (ngrokUrl) => {
+                  url = `${ngrokUrl}${linkInfo.path}`;
+                  reslove({ success: true, url });
+                },
+                (err) => {
+                  reject(err);
+                }
+              );
             } else {
               reslove({ success: true, url });
             }
           } else {
-            reject({ success: false, msg: resData.msg });
+            reject(resData.msg);
           }
         } catch (err) {
           // console.log("err", err);
-          reject({ success: false, msg: err });
+          reject(err);
         }
       });
 
@@ -191,16 +196,25 @@ const ipcInit = () => {
 
 function useNgrok(authtoken, port) {
   return new Promise((reslove, reject) => {
-    ngrok.authtoken(authtoken).then((res) => {
-      ngrok.connect(port).then(
+    try {
+      ngrok.authtoken(authtoken).then(
         (res) => {
-          reslove(res);
+          ngrok.connect(port).then(
+            (res) => {
+              reslove(res);
+            },
+            (err) => {
+              console.log("ngrok error:", err);
+              reject(err);
+            }
+          );
         },
         (err) => {
-          console.log("ngrok error:", err);
           reject(err);
         }
       );
-    });
+    } catch (err) {
+      reject(err);
+    }
   });
 }

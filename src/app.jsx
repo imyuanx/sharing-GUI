@@ -77,9 +77,8 @@ const App = () => {
       }
       params.ngrok = authtoken;
     }
-    window.electronAPI
-      .emit("sharing", { type: shareType, params })
-      .then((res) => {
+    window.electronAPI.emit("sharing", { type: shareType, params }).then(
+      (res) => {
         if (res.success) {
           setIsStaring(false);
           setIsStarted(true);
@@ -89,8 +88,14 @@ const App = () => {
           });
         } else {
           alert(res.msg);
+          setIsStaring(false);
         }
-      });
+      },
+      (err) => {
+        alert(err);
+        setIsStaring(false);
+      }
+    );
   };
 
   /**
