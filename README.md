@@ -27,6 +27,7 @@ Download from [GitHub Releases](https://github.com/yunying1/sharing-GUI/releases
 - Access your clipboard on other devices
 - Support LAN/Public Network
 - Support identity authentication
+- Support [ngrok](https://ngrok.com/), quickly share to the public network
 
 ## Tips
 
