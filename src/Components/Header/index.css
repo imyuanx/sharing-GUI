@@ -47,6 +47,7 @@
   border-radius: 4px;
   display: flex;
   flex-direction: column;
+  z-index: 1;
 }
 
 .translate-item {

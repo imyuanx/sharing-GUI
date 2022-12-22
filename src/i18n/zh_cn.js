@@ -20,5 +20,15 @@ export default {
     Add: "添加",
     "Select at least one directory or file": "至少选择一个目录或文件",
     "Drag and drop directory to receive files": "拖放要接受文件的目录",
+    "Use ngrok": "使用 ngrok",
+    "Manage Authtoken": "管理 Authtoken",
+    "ngrok tips":
+      "当你没有公网 IP 时，你可以使用 <ngrok_a>ngrok</ngrok_a> 将你的文件公开在公网。你必须要有一个 <ngrok_a>ngrok</ngrok_a> 账号并且申请一个 <token_a>Authtoken</token_a>。",
+    "Your Authtoken": "你的 Authtoken",
+    Cancel: "取消",
+    Confirm: "确认",
+    "Enter your Authtoken": "输入你的 Authtoken",
+    "An authtoken must be provided to use ngrok!":
+      "必须提供 Authtoken 才能使用ngok！",
   },
 };
