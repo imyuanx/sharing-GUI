@@ -27,6 +27,7 @@ Sharing GUI 是一个客户端，用于跨多个设备（iOS、Android、macOS�
 - 在其他设备上访问剪贴板
 - 支持局域网、公网
 - 支持身份认证
+- 支持 [ngrok](https://ngrok.com/)，快速分享到公网
 
 ## 提示
 
