@@ -261,7 +261,7 @@ const App = () => {
    * @desc Drag events entry
    */
   const fileDrop = (e) => {
-    if (shareType === SHARE_TYPE.CLIPBORAD) return;
+    if (shareType === SHARE_TYPE.CLIPBORAD || isStarted) return;
     if (e.type === "dragenter") {
       e.preventDefault();
       countRef.current++;
