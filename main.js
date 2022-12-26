@@ -25,6 +25,8 @@ const SHARING_PKG = {
   linux: "easy-sharing-linux",
 };
 
+let serviceLs = null;
+
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 557,
@@ -58,8 +60,13 @@ app.on("window-all-closed", function () {
   app.quit();
 });
 
+app.on("quit", function () {
+  endServices().then((res) => {
+    console.log("app quit");
+  });
+});
+
 const ipcInit = () => {
-  let serviceLs = null;
   ipcMain.on("set-title", (event, title) => {
     const webContents = event.sender;
     const win = BrowserWindow.fromWebContents(webContents);
@@ -165,14 +172,7 @@ const ipcInit = () => {
     return dialog.showOpenDialog({ properties });
   });
 
-  ipcMain.handle("end-sharing", (event) => {
-    return new Promise((reslove, reject) => {
-      execFile("kill", [serviceLs.pid]);
-      ngrok.kill().then(() => {
-        reslove();
-      });
-    });
-  });
+  ipcMain.handle("end-sharing", endServices);
 
   ipcMain.handle("copy", (event, conetnt) => {
     return new Promise((reslove, reject) => {
@@ -194,6 +194,24 @@ const ipcInit = () => {
   });
 };
 
+/**
+ * @desc stop sharing services
+ * @param {*} event
+ */
+function endServices(event) {
+  return new Promise((reslove, reject) => {
+    serviceLs?.pid && execFile("kill", [serviceLs.pid]);
+    ngrok.kill().then(() => {
+      reslove();
+    });
+  });
+}
+
+/**
+ * @desc use ngrok publish to public network
+ * @param {String} authtoken
+ * @param {Number} port
+ */
 function useNgrok(authtoken, port) {
   return new Promise((reslove, reject) => {
     try {
