@@ -14,11 +14,11 @@ The Sharing GUI is a client that is used to share files across multiple devices 
 
 **Only one client is required**, other devices use WEB. (client support macOS, Windows, Linux)
 
-Start with [parvardegr/sharing](https://github.com/parvardegr/sharing) and then used [yunying1/sharing](https://github.com/yunying1/sharing)
+Start with [parvardegr/sharing](https://github.com/parvardegr/sharing) and then used [imyuanx/sharing](https://github.com/imyuanx/sharing)
 
 ## Installation
 
-Download from [GitHub Releases](https://github.com/yunying1/sharing-GUI/releases) and install it.
+Download from [GitHub Releases](https://github.com/imyuanx/sharing-GUI/releases) and install it.
 
 ## Features
 
@@ -60,6 +60,6 @@ yarn make
 
 ### Custom Core
 
-if your need custom core, visit this repo [yunying1/sharing](https://github.com/yunying1/sharing)
+if your need custom core, visit this repo [imyuanx/sharing](https://github.com/imyuanx/sharing)
 
 I use [pkg](https://github.com/vercel/pkg) package it into binary files

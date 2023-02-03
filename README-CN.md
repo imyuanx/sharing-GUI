@@ -14,11 +14,11 @@ Sharing GUI 是一个客户端，用于跨多个设备（iOS、Android、macOS�
 
 **只需要一个客户端**, 其他设备使用 WEB。（客户端支持 macOS，即将支持 Windows、Linux）
 
-起初使用[parvardegr/sharing](https://github.com/parvardegr/sharing)作为核心，后来使用[yunying1/sharing](https://github.com/yunying1/sharing)
+起初使用[parvardegr/sharing](https://github.com/parvardegr/sharing)作为核心，后来使用[imyuanx/sharing](https://github.com/imyuanx/sharing)
 
 ## 下载
 
-可以从[GitHub Releases](https://github.com/yunying1/sharing-GUI/releases)下载安装，当然你也可以克隆代码自己打包（见下文）
+可以从[GitHub Releases](https://github.com/imyuanx/sharing-GUI/releases)下载安装，当然你也可以克隆代码自己打包（见下文）
 
 ## 特性
 
@@ -60,6 +60,6 @@ yarn make
 
 ### 自定义核心
 
-如果你需要自定义核心, 请查看[yunying1/sharing](https://github.com/yunying1/sharing)
+如果你需要自定义核心, 请查看[imyuanx/sharing](https://github.com/imyuanx/sharing)
 
 我使用[pkg](https://github.com/vercel/pkg)将它打包成二进制文件

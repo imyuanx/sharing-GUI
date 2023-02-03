@@ -13,7 +13,7 @@ function Header() {
   };
 
   const onGitHubClickHandle = () => {
-    openDefaultBrowser("https://github.com/yunying1/sharing-GUI");
+    openDefaultBrowser("https://github.com/imyuanx/sharing-GUI");
   };
 
   const onTranslateClickHandle = () => {
