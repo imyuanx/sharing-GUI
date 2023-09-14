@@ -1,3 +1,9 @@
+.help-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .auth-token-help {
   width: 350px;
   font-weight: 400;

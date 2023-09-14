@@ -29,7 +29,8 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^12.0.0",
     "vite": "^3.2.4",
-    "vite-plugin-electron": "^0.10.4"
+    "vite-plugin-electron": "^0.10.4",
+    "vite-plugin-svgr": "^3.2.0"
   },
   "env": {
     "SERVER_HOST": "127.0.0.1",
