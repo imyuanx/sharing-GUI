@@ -1,9 +1,6 @@
 import { useRef, useState } from "react";
 import QRCode from "qrcode/lib/browser";
-import { useTranslation, Trans } from "react-i18next";
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css"; // optional
-import "./app.css";
+import { useTranslation } from "react-i18next";
 import Header from "./Components/Header";
 import Input from "./Components/Input";
 import Radio from "./Components/Radio";
@@ -14,6 +11,7 @@ import Authtoken from "./Components/Authtoken";
 import HelpIcon from "./Components/HelpIcon";
 import { ReactComponent as ClipSvg } from "./icons/clip.svg";
 import { ReactComponent as CloseSvg } from "./icons/close.svg";
+import "./app.css";
 
 const SHARE_TYPE = {
   SHARE: 0,
@@ -192,7 +190,6 @@ const App = () => {
     return (
       <div className="clip-icon" {...props}>
         <ClipSvg />
-        {/* <img src={clipSvg} /> */}
       </div>
     );
   };
@@ -331,7 +328,6 @@ const App = () => {
                           onClick={() => removePath(path)}
                         >
                           <CloseSvg />
-                          {/* <img src={closeSvg} /> */}
                         </div>
                       </div>
                     ))}
@@ -350,7 +346,7 @@ const App = () => {
                     placeholder={t("Optional")}
                     value={port}
                     onChange={onPortChange}
-                  ></Input>
+                  />
                 </div>
               </>
             )}
@@ -369,7 +365,7 @@ const App = () => {
                   placeholder={t("Optional")}
                   value={port}
                   onChange={onPortChange}
-                ></Input>
+                />
               </div>
             )}
             <div className="form-item">
@@ -402,7 +398,7 @@ const App = () => {
                     placeholder={t("Optional")}
                     value={port}
                     onChange={onPortChange}
-                  ></Input>
+                  />
                 </div>
               </>
             )}
@@ -419,7 +415,7 @@ const App = () => {
                   className="input"
                   placeholder={`${t("Public IP")} (${t("Optional")})`}
                   onChange={onpublicIPChange}
-                ></Input>
+                />
               </div>
               <div className="form-item-sub-item">
                 <label>{t("Use ngrok")}</label>
@@ -444,7 +440,7 @@ const App = () => {
                   className="input"
                   placeholder={t("Optional")}
                   onChange={onUsernameChange}
-                ></Input>
+                />
               </div>
               <div className="form-item-sub-item">
                 <label>{t("Password")}</label>
@@ -452,11 +448,11 @@ const App = () => {
                   className="input"
                   placeholder={t("Optional")}
                   onChange={onPasswordChange}
-                ></Input>
+                />
               </div>
             </div>
           </div>
-          <div style={{ flex: 1 }}></div>
+          <div style={{ flex: 1 }} />
           <Button
             className="btn btn-start"
             onClick={onStartServiceHandle}

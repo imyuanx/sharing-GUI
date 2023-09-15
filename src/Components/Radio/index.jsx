@@ -11,7 +11,7 @@ function Radio(props = { cehcked: false }) {
 
   return (
     <div className="radio" onClick={onClickHandle}>
-      {cehcked && <div className="checked"></div>}
+      {cehcked && <div className="checked" />}
     </div>
   );
 }

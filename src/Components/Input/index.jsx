@@ -7,7 +7,7 @@ function Input(props) {
       <input
         className={`${className} ${icon ? "input-icon" : ""}`}
         {..._props}
-      ></input>
+      />
       {icon}
     </div>
   );
