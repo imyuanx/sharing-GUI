@@ -1,4 +1,4 @@
-import { ReactComponent as LoadingSvg } from "../../icons/loading.svg";
+import { ReactComponent as LoadingSvg } from "@/icons/loading.svg";
 import "./index.css";
 
 function Button({ ghost, size, className, children, isLoding, ...args }) {

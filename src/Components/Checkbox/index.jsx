@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ReactComponent as CheckboxSvg } from "../../icons/checkout.svg";
+import { ReactComponent as CheckboxSvg } from "@/icons/checkout.svg";
 import "./index.css";
 
 function Checkbox({ defaultChecked = false, onClick = () => {} }) {

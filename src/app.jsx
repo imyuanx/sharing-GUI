@@ -1,16 +1,16 @@
 import { useRef, useState } from "react";
 import QRCode from "qrcode/lib/browser";
 import { useTranslation } from "react-i18next";
-import Header from "./Components/Header";
-import Input from "./Components/Input";
-import Radio from "./Components/Radio";
-import Button from "./Components/Button";
-import Tips from "./Components/Tips";
-import Checkbox from "./Components/Checkbox";
-import Authtoken from "./Components/Authtoken";
-import HelpIcon from "./Components/HelpIcon";
-import { ReactComponent as ClipSvg } from "./icons/clip.svg";
-import { ReactComponent as CloseSvg } from "./icons/close.svg";
+import Header from "@/components/Header";
+import Input from "@/components/Input";
+import Radio from "@/components/Radio";
+import Button from "@/components/Button";
+import Tips from "@/components/Tips";
+import Checkbox from "@/components/Checkbox";
+import Authtoken from "@/components/Authtoken";
+import HelpIcon from "@/components/HelpIcon";
+import { ReactComponent as ClipSvg } from "@/icons/clip.svg";
+import { ReactComponent as CloseSvg } from "@/icons/close.svg";
 import "./app.css";
 
 const SHARE_TYPE = {

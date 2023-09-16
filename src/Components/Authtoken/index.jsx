@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Input from "../Input";
-import Button from "../Button";
-import HelpIcon from "../HelpIcon";
-import { ReactComponent as DeleteSvg } from "../../icons/delete.svg";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
+import HelpIcon from "@/components/HelpIcon";
+import { ReactComponent as DeleteSvg } from "@/icons/delete.svg";
 import "./index.css";
 
 function Authtoken({ onColse }) {

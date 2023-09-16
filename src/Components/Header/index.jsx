@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import logoSVG from "../../../assets/logo.svg";
-import { ReactComponent as TranslateSvg } from "../../icons/translate.svg";
-import { ReactComponent as GithubSvg } from "../../icons/github.svg";
+import logoSVG from "assets/logo.svg";
+import { ReactComponent as TranslateSvg } from "@/icons/translate.svg";
+import { ReactComponent as GithubSvg } from "@/icons/github.svg";
 import "./index.css";
 
 function Header() {

@@ -1,4 +1,4 @@
-import { ReactComponent as CheckmarkSvg } from "../../icons/checkmark.svg";
+import { ReactComponent as CheckmarkSvg } from "@/icons/checkmark.svg";
 import "./index.css";
 
 function Tips({ title, icon }) {
