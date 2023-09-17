@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import QRCode from "qrcode/lib/browser";
 import { useTranslation } from "react-i18next";
+import clsx from "clsx";
 import Header from "@/components/Header";
 import Input from "@/components/Input";
 import Radio from "@/components/Radio";
@@ -292,7 +293,7 @@ const App = () => {
 
   return (
     <div
-      className={`app ${isDragEnter ? "child-disable-event" : ""}`}
+      className="app"
       onDragEnter={fileDrop}
       onDragLeave={fileDrop}
       onDragOver={fileDrop}
@@ -406,9 +407,10 @@ const App = () => {
           <div className="from-group">
             <div className="form-item  form-many-item">
               <div
-                className={`form-item-sub-item ${
-                  ngrok ? "form-item-disable" : ""
-                }`}
+                className={clsx(
+                  "form-item-sub-item",
+                  ngrok && "form-item-disable"
+                )}
               >
                 <label>{t("Public IP")}</label>
                 <Input

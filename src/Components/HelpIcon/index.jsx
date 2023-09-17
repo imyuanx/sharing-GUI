@@ -1,4 +1,5 @@
 import { Trans } from "react-i18next";
+import clsx from "clsx";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // optional
 import { ReactComponent as HelpSvg } from "@/icons/help.svg";
@@ -43,7 +44,7 @@ function HelpIcon({ className }) {
       maxWidth={360}
       interactive
     >
-      <div className={`help-icon ${className}`}>
+      <div className={clsx("help-icon", className)}>
         <HelpSvg />
       </div>
     </Tippy>
