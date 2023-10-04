@@ -130,8 +130,14 @@
 }
 
 .required-symbol {
+  position: relative;
+}
+
+.required-symbol::before {
+  position: absolute;
+  content: "*";
   color: red;
-  margin-right: 3px;
+  left: -10px;
 }
 
 .drag-modal {

@@ -316,8 +316,7 @@ const App = () => {
             {shareType === SHARE_TYPE.SHARE && (
               <>
                 <div className="form-item form-item-item">
-                  <div>
-                    <span className="required-symbol">*</span>
+                  <div className="required-symbol">
                     {t("Directories / Files")}
                   </div>
                   {sharePathList.length > 0 &&
@@ -379,10 +378,7 @@ const App = () => {
             {shareType === SHARE_TYPE.RECEIVE && (
               <>
                 <div className="form-item form-item-item">
-                  <div>
-                    <span className="required-symbol">*</span>
-                    {t("Directory")}
-                  </div>
+                  <div className="required-symbol">{t("Directory")}</div>
                   {receivePath && <p className="text-path">{receivePath}</p>}
                   <Button
                     className="btn"
