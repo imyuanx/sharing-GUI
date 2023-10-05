@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import logoSVG from "assets/logo.svg";
 import { ReactComponent as TranslateSvg } from "@/icons/translate.svg";
@@ -18,14 +18,26 @@ function Header() {
     openDefaultBrowser("https://github.com/imyuanx/sharing-GUI");
   };
 
-  const onTranslateClickHandle = () => {
+  const onTranslateClickHandle = (e) => {
+    e.stopPropagation();
     setIsShowLanguagesMenu(!isShowLanguagesMenu);
   };
 
   const onTranslateItemClickHandle = (language) => {
     i18n.changeLanguage(language);
-    setIsShowLanguagesMenu(false);
   };
+
+  useEffect(() => {
+    const clickHandle = () => {
+      if (isShowLanguagesMenu) {
+        setIsShowLanguagesMenu(false);
+      }
+    };
+    document.addEventListener("click", clickHandle);
+    return () => {
+      document.removeEventListener("click", clickHandle);
+    };
+  }, [isShowLanguagesMenu]);
 
   return (
     <div className="header">
