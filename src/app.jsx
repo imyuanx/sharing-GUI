@@ -11,6 +11,7 @@ import Checkbox from "@/components/Checkbox";
 import Authtoken from "@/components/Authtoken";
 import HelpIcon from "@/components/HelpIcon";
 import { ReactComponent as ClipSvg } from "@/icons/clip.svg";
+import { ReactComponent as OpenSvg } from "@/icons/open.svg";
 import { ReactComponent as CloseSvg } from "@/icons/close.svg";
 import "./app.css";
 
@@ -189,8 +190,16 @@ const App = () => {
 
   const ClipIcon = (props) => {
     return (
-      <div className="clip-icon" {...props}>
+      <div className="icon" {...props}>
         <ClipSvg />
+      </div>
+    );
+  };
+
+  const OpenIcon = (props) => {
+    return (
+      <div className="icon" {...props}>
+        <OpenSvg />
       </div>
     );
   };
@@ -204,6 +213,13 @@ const App = () => {
     setTimeout(() => {
       setIsShowCopyTips(false);
     }, 2000);
+  };
+
+  /**
+   * @desc open service url in browser
+   */
+  const onOpenUrlHandle = () => {
+    window.electronAPI.emit("open-url", serviceUrl);
   };
 
   /**
@@ -468,7 +484,12 @@ const App = () => {
             className="input-result"
             value={serviceUrl}
             readOnly
-            icon={<ClipIcon onClick={onCopyUrlHandle} />}
+            icon={
+              <div className="icon-box">
+                <ClipIcon onClick={onCopyUrlHandle} />
+                <OpenIcon onClick={onOpenUrlHandle} />
+              </div>
+            }
           />
           <Button className="btn-end" onClick={onEndServiceHandle}>
             {t("End Service")}

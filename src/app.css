@@ -193,3 +193,19 @@
   margin-left: 6px;
   cursor: pointer;
 }
+
+.icon-box {
+  display: flex;
+  gap: 2px;
+  margin-left: 2px;
+  margin-right: 4px;
+}
+
+.icon-box .icon {
+  width: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #16a34a;
+}

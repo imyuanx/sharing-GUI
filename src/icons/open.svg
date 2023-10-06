@@ -1,0 +1,11 @@
+<svg width="12" height="12" viewBox="0 0 17 17" fill="none"
+  xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M6.5 1H3C2.46957 1 1.96086 1.21071 1.58579 1.58579C1.21071 1.96086 1 2.46957 1 3V14C1 14.5304 1.21071 15.0391 1.58579 15.4142C1.96086 15.7893 2.46957 16 3 16H14C14.5304 16 15.0391 15.7893 15.4142 15.4142C15.7893 15.0391 16 14.5304 16 14V10.5"
+    stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M10 1H16V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+    stroke-linejoin="round" />
+  <path d="M16 1L10 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+    stroke-linejoin="round" />
+</svg>
+  
