@@ -16,6 +16,7 @@
 .svg-logo {
   width: 32px;
   height: 32px;
+  -webkit-user-drag: none;
 }
 
 .title {
